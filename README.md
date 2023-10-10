@@ -38,10 +38,6 @@ Just go to the [release section]() and download the zip. After extracting it any
 - Version: 1.4.0
 - Author: S3R43o3
 
-## License
-
-This tool is available under the [License Name](URL).
-
 ---
 
 **Note:** This tool was developed for downloading audio from YouTube videos. Please respect YouTube's copyright policies and terms of use before downloading videos. This tool is provided "as is" with no warranty or guarantee. The author is not responsible for the misuse of this tool.
