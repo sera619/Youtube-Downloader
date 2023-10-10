@@ -106,7 +106,7 @@
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap resource="assets/ressource_qrc.qrc">:/icons/logo-transparent.ico</pixmap>
+            <pixmap resource="../assets/ressource_qrc.qrc">:/icons/logo-transparent.ico</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -664,7 +664,8 @@ selection-background-color: rgb(255, 0, 0);
 background-color: rgba(0, 0, 0, 0);
 gridline-color: rgb(255, 0, 0);
 selection-color: rgb(255, 0, 0);
-border-radius: 5px;</string>
+border-radius: 5px;
+border:1px solid rgb(255,0,0);</string>
               </property>
               <property name="value">
                <number>24</number>
@@ -933,6 +934,7 @@ QPushButton:disabled {
   </layout>
  </widget>
  <resources>
+  <include location="../assets/ressource_qrc.qrc"/>
   <include location="assets/ressource_qrc.qrc"/>
  </resources>
  <connections/>

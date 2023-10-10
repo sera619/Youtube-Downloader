@@ -13,7 +13,7 @@ YouTube Downloader is a simple Windows application that allows you to download a
 
 ## Installation
 
-Just go to the [release section]() and download the zip. After extracting it anywhere you can simple run the exe.
+Just go to the [release section](https://github.com/sera619/Youtube-Downloader/releases) and download the zip. After extracting it anywhere you can simple run the exe.
 
 ## How to Use the Tool
 

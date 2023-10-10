@@ -2,24 +2,20 @@ from pytube import YouTube
 from PySide6.QtWidgets import QApplication, QFileDialog, QListWidgetItem, QMessageBox, QWidget
 from PySide6 import QtCore
 from PySide6 import QtGui
-import os, sys
+import os, sys, time
 from src.YTDownloaderUI import Ui_Form
 from src.styles import STYLES
 
 
-
-testurls = ["https://www.youtube.com/watch?v=BK6_6RB2h64", "https://www.youtube.com/watch?v=Zll1dJk3Mww"]
-
 basedir = os.path.dirname(__file__)
-current_version ="1.4.0"
-prefix = "https://www.youtube.com/watch?v="
 outdir = 'out'
+output_dir = os.path.join(os.path.dirname(sys.executable), outdir)
+prefix = "https://www.youtube.com/watch?v="
 appconfi = {
     "author": "S3R43o3",
     "version": "1.4.0" 
 }
         
-output_dir = os.path.join(os.path.dirname(sys.executable), outdir)
 class YTDownloader(QWidget, Ui_Form):
     def __init__(self):
         super(YTDownloader, self).__init__()
@@ -30,7 +26,6 @@ class YTDownloader(QWidget, Ui_Form):
         self.setupButtons()
         self.changeSavepath()
        
-
     def setupButtons(self):
         self.addUrlBtn.clicked.connect(self.addDownloadURL)
         self.removeUrlBtn.clicked.connect(self.removeDownloadUrl)
@@ -51,8 +46,7 @@ class YTDownloader(QWidget, Ui_Form):
     def changeSavepath(self):
         self.savePathLabel.setText(output_dir)
 
-    def generateSaveDir(self):
-        
+    def generateSaveDir(self):        
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
             self.showNotification("Initialization", f"Initialization successfull!\nSavedirectory created at path:\n'{output_dir}'")
@@ -71,6 +65,7 @@ class YTDownloader(QWidget, Ui_Form):
         msgBox = QMessageBox(self)
         msgBox.setWindowTitle(title)
         msgBox.setText(text)
+        msgBox.setWindowIcon(QtGui.QIcon(os.path.join(os.path.dirname(sys.executable),'logo-transparent.ico')))
         msgBox.setIcon(QMessageBox.Information)
         msgBox.addButton("OK", QMessageBox.AcceptRole)
         msgBox.setStyleSheet(STYLES['buttons'])
@@ -93,26 +88,31 @@ class YTDownloader(QWidget, Ui_Form):
         print("Youtube video is downloaded. Path: ", path, " Type: ", ytObj.title)
 
     def downloadAudio(self):
+        self.downloadBtn.setDisabled(True)
+        self.downloadProgress.setVisible(True)
+        self.downloadProgress.setValue(1)
         urls = self.listWidget.findItems("", QtCore.Qt.MatchFlag.MatchContains)
         if len(urls) > 0:
             self.downloadProgress.setMaximum(len(urls))
-            self.downloadProgress.setVisible(True)
             count = 0 
+            self.downloadProgress.setValue(count)
             for u in urls:
                 count += 1 
-                yt = YouTube(url=u.text(), on_complete_callback=self.downloadFinish)
+                yt = YouTube(url=u.text())
                 stream = yt.streams.get_audio_only()
                 if stream:
                     stream.download(self.savePathLabel.text(), f"{stream.default_filename[:-4]}{self.audioformatBox.currentText()}")
                     row = self.listWidget.row(u)
                     self.listWidget.takeItem(row)
-                else:
-                    continue
                 self.downloadProgress.setValue(count)
             self.downloadProgress.setValue(self.downloadProgress.maximum()) 
-            self.showNotification("Download Finish", f"All your '{count}' youtube videos are successfully downloaded!")
+            time.sleep(1)
             self.downloadProgress.setVisible(False)
+            self.downloadBtn.setDisabled(False)
+            self.showNotification("Download Finish", f"All your '{count}' youtube videos are successfully downloaded!")
         else:
+            self.downloadBtn.setDisabled(False)
+            self.downloadProgress.setVisible(False)
             return
 
     def mousePressEvent(self, event):
@@ -138,15 +138,12 @@ def main():
 
 
 if __name__ == '__main__':
-    try:
-        # yt = YouTube(url=testurls[0])
-        # stream = yt.streams.get_audio_only()
-        # if stream:
-        #     print(stream.default_filename[:-4])
-        
+    try:       
         main()
     except Exception as e:
         print("Error: ", e)
+    finally:
+        sys.exit()
 
 
 
