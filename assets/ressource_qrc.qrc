@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>logo-icon.svg</file>
+    <file>logo-transparent.ico</file>
+    <file>logo-transparent.png</file>
+  </qresource>
+</RCC>
